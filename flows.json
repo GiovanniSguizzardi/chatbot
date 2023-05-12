@@ -1,0 +1,247 @@
+[
+    {
+        "id": "2f68e86e753e4ad1",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f9b7f90f082ba0de",
+        "type": "telegram bot",
+        "botname": "GibamarBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "fddd190f4650a508",
+        "type": "telegram receiver",
+        "z": "2f68e86e753e4ad1",
+        "name": "",
+        "bot": "f9b7f90f082ba0de",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 90,
+        "y": 260,
+        "wires": [
+            [
+                "1f46b60a3e1dd71b",
+                "f09193d200edeed2"
+            ],
+            [
+                "5da4871f271ed2a8"
+            ]
+        ]
+    },
+    {
+        "id": "3fa012375a90556d",
+        "type": "telegram sender",
+        "z": "2f68e86e753e4ad1",
+        "name": "",
+        "bot": "f9b7f90f082ba0de",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 930,
+        "y": 260,
+        "wires": [
+            [
+                "03a0cf9375260dbf"
+            ]
+        ]
+    },
+    {
+        "id": "06df0ab9c92b724a",
+        "type": "watson-assistant-v2",
+        "z": "2f68e86e753e4ad1",
+        "name": "PortoSeguro",
+        "service-endpoint": "https://api.au-syd.assistant.watson.cloud.ibm.com/instances/306166f3-1927-4de5-93f5-76d58118d899",
+        "assistant_id": "11fa6a71-4ec9-485f-a288-f1297f4ccc37",
+        "debug": false,
+        "restart": false,
+        "return_context": true,
+        "alternate_intents": false,
+        "multisession": false,
+        "timeout": "",
+        "optout-learning": false,
+        "persist-session-id": true,
+        "x": 510,
+        "y": 260,
+        "wires": [
+            [
+                "86811896faf4e26c",
+                "2df874efeeafad72"
+            ]
+        ]
+    },
+    {
+        "id": "1f46b60a3e1dd71b",
+        "type": "debug",
+        "z": "2f68e86e753e4ad1",
+        "name": "Entrada",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 300,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "86811896faf4e26c",
+        "type": "debug",
+        "z": "2f68e86e753e4ad1",
+        "name": "Resposta",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "f09193d200edeed2",
+        "type": "change",
+        "z": "2f68e86e753e4ad1",
+        "name": "Prepara entrada",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.session_id",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.content",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 260,
+        "wires": [
+            [
+                "06df0ab9c92b724a"
+            ]
+        ]
+    },
+    {
+        "id": "2df874efeeafad72",
+        "type": "change",
+        "z": "2f68e86e753e4ad1",
+        "name": "Prepara Retorno",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.chatId",
+                "pt": "msg",
+                "to": "chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.type",
+                "pt": "msg",
+                "to": "message",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.content",
+                "pt": "msg",
+                "to": "payload.output.generic[0].text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 710,
+        "y": 260,
+        "wires": [
+            [
+                "3fa012375a90556d"
+            ]
+        ]
+    },
+    {
+        "id": "5da4871f271ed2a8",
+        "type": "function",
+        "z": "2f68e86e753e4ad1",
+        "name": "Acesso não autorizado",
+        "func": "msg.payload.contet = \"Você não é um usuario autorizado!\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 500,
+        "wires": [
+            [
+                "3fa012375a90556d"
+            ]
+        ]
+    },
+    {
+        "id": "03a0cf9375260dbf",
+        "type": "debug",
+        "z": "2f68e86e753e4ad1",
+        "name": "Retorno",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 260,
+        "wires": []
+    }
+]
