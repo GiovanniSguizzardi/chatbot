@@ -11,4 +11,7 @@ CHATBOT:
 APIbot = 11fa6a71-4ec9-485f-a288-f1297f4ccc37
 URL = https://api.au-syd.assistant.watson.cloud.ibm.com/v2/assistants/11fa6a71-4ec9-485f-a288-f1297f4ccc37/sessions
 NAME = PortoSeguro
+
+WATSON-ASSISTANT:
 API = jRzK_Bnpy2v94Bb0qXi4K4CBRCA1jVlYl-9prSfiw5Ei
+URL = https://api.au-syd.assistant.watson.cloud.ibm.com/instances/306166f3-1927-4de5-93f5-76d58118d899
